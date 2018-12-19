@@ -6,11 +6,11 @@ RUN mkdir -p "$HTTPD_PREFIX" \
     && chown www-data:www-data "$HTTPD_PREFIX"
 WORKDIR $HTTPD_PREFIX
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    apache2 curl \
+RUN apt update \
+    && apt install -y --no-install-recommends \
+    apache2 curl git vim wget libapache2-mod-fcgid software-properties-common\
     && rm -r /var/lib/apt/lists/*
-RUN a2enmod ssl rewrite
+RUN a2enmod ssl rewrite actions fcgid alias proxy_fcgi
 RUN sed -i '/Global configuration/a \
 ServerName localhost \
 ' /etc/apache2/apache2.conf
