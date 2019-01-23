@@ -7,8 +7,8 @@ RUN apt-get update \
  
 ARG WEB_USER=www-data
 ARG WEB_GROUP=www-data
-ARG USER_ID=1000
-ARG GROUP_ID=1000
+ARG USER_ID
+ARG GROUP_ID
 
 COPY httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf
 COPY httpd.conf /usr/local/apache2/conf/httpd.conf
@@ -32,6 +32,8 @@ RUN if [ ${USER_ID:-0} -ne 0 ] && [ ${GROUP_ID:-0} -ne 0 ]; then \
         
 USER www-data
 
-RUN usermod -u 1000 ${WEB_USER} \
- && groupmod -g 1000 ${WEB_GROUP} \
- && chgrp -R ${WEB_GROUP} /usr/local/apache2
+RUN if [ ${USER_ID:-0} -ne 0 ] && [ ${GROUP_ID:-0} -ne 0 ]; then \
+  usermod -u 1000 ${WEB_USER} \
+  && groupmod -g 1000 ${WEB_GROUP} \
+  && chgrp -R ${WEB_GROUP} /usr/local/apache2 \
+ ;fi
