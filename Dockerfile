@@ -6,6 +6,7 @@ RUN apt-get update \
     && rm -r /var/lib/apt/lists/*
  
 ENV PHP_SERVER_HOST=php
+ENV SERVER_HOST_NAME=app.local
 
 COPY httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf
 COPY httpd.conf /usr/local/apache2/conf/httpd.conf
